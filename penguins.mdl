@@ -1,0 +1,9 @@
+push
+constants shiny_teal 0.3 0.0 0.0 0.3 0.2 0.8 0.3 0.2 0.8
+rotate x -90
+rotate z 30
+scale 5 5 5
+move 48 5 5
+mesh shiny_teal :love_penguins_ascii.stl
+display
+save penguins.png

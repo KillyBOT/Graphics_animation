@@ -1,0 +1,19 @@
+push
+constants weird1 0.7 0 0 0 0.7 0 0 0 0.7
+constants weird2 0 0.7 0 0 0 0.7 0.7 0 0
+constants weird3 0 0 0.7 0.7 0 0 0 0.7 0
+scale 15 15 15
+rotate x -90
+push
+move 10.3 0 22
+mesh weird1 :Utah_teapot_solid.stl
+pop
+push
+move 16.6 0 12
+mesh weird2 :Utah_teapot_solid.stl
+pop
+push
+move 22.9 0 2
+mesh weird3 :Utah_teapot_solid.stl
+display
+save teapot_multiple.png
