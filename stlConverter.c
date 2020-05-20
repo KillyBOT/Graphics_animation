@@ -10,12 +10,21 @@ struct matrix* stlConvert(struct matrix* m, char* fileName){
 	FILE* sF = fopen(fileName,"r");
 
 	char buffer[512];
+	char* stringBuffer = malloc(512);
 	int vCount = 0;
 	double vertices[3];
+	int bufferPlace = 0;
+
 	while(fgets(buffer,sizeof(buffer),sF) != NULL){
 		buffer[strlen(buffer)-1] = '\0';
+		strcpy(stringBuffer,buffer);
 
-		if(buffer[0] == 'v'){
+		while(stringBuffer[0] == ' ' || stringBuffer[0] == '\t'){
+			strsep(&stringBuffer," \t");
+		}
+		//printf("%s\n", stringBuffer);
+
+		if(stringBuffer[0] == 'v'){
 
 			// if(vCount == 0){
 			// 	fprintf(f,"polygon\n");
@@ -25,7 +34,7 @@ struct matrix* stlConvert(struct matrix* m, char* fileName){
 			//printf("%s\n", buffer);
 
 			//vCount++;
-			sscanf(buffer," vertex %lf %lf %lf", vertices, vertices+1, vertices+2);
+			sscanf(stringBuffer,"vertex %lf %lf %lf", vertices, vertices+1, vertices+2);
 
 			//printf("%lf %lf %lf\n", vertices[0], vertices[1], vertices[2]);
 
@@ -37,9 +46,11 @@ struct matrix* stlConvert(struct matrix* m, char* fileName){
 			// 	vCount = 0;
 			// }
 		}
+		//printf("\n");
 	}
 
-	//free(buffer);
+
+	free(stringBuffer);
 	fclose(sF);
 	//fclose(f);
 

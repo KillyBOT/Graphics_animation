@@ -259,7 +259,7 @@ void my_main() {
   for(f = 0; f < num_frames; f++){
 
     systems = new_stack();
-    tmp = new_matrix(4, 1000);
+    tmp = new_matrix(4, 1024);
     clear_screen( t );
     clear_zbuffer(zb);
 
@@ -344,6 +344,20 @@ void my_main() {
           tmp->lastcol = 0;
           reflect = &white;
           break;
+        case MESH:
+
+          if(op[i].op.mesh.constants != NULL){
+            reflect = lookup_symbol(op[i].op.mesh.constants->name)->s.c;
+          }
+
+          stlConvert(tmp, op[i].op.mesh.name);
+          matrix_mult(peek(systems),tmp);
+
+          draw_polygons(tmp, t, zb, view, light, ambient, reflect);
+          tmp->lastcol = 0;
+          reflect = &white;
+          break;
+
         case LINE:
           // printf("Line: from: %6.2f %6.2f %6.2f to: %6.2f %6.2f %6.2f",
           //        op[i].op.line.p0[0],op[i].op.line.p0[1],
@@ -477,8 +491,9 @@ void my_main() {
       delayTime = 1.7;
       sprintf(delayArg, "%.1f",delayTime);
 
-      execlp("convert", "convert", fileArg, "-delay", delayArg, finalFileArg, NULL);
+      execlp("convert", "convert", "-delay", delayArg, fileArg, finalFileArg, NULL);
     } else {
+      printf("Converting to gif...\n");
       waitpid(n, &status, 0);
     }
 
@@ -497,6 +512,7 @@ void my_main() {
 
       exit(0);
     } else {
+      printf("Cleaning up...\n");
       waitpid(n, &status, 0);
     }
   }

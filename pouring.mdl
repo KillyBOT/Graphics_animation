@@ -1,0 +1,13 @@
+frames 180
+basename pouring_teapot
+constants brass 0.329412 0.780392 0.992157 0.223529 0.568627 0.941176 0.027451 0.113725 0.807843
+push
+move 250 250 0
+scale 15 15 15
+rotate x -90
+rotate y 45 pouring
+mesh brass :Utah_teapot_solid.stl
+
+vary pouring 0 59 0 1
+vary pouring 60 119 1 1
+vary pouring 120 179 1 0

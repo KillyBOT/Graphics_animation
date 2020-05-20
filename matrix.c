@@ -320,13 +320,15 @@ Inputs:  struct matrix *m
 Returns: 
 
 Reallocates the memory for m->m such that it now has
-newcols number of collumns
+newcols number of columns
 ====================*/
 void grow_matrix(struct matrix *m, int newcols) {
   
+  //printf("%d %d %d\n", m->rows, m->cols, newcols);
   int i;
   for (i=0;i<m->rows;i++) {
       m->m[i] = realloc(m->m[i],newcols*sizeof(double));
+      //printf("Test\n");
   }
   m->cols = newcols;
 }
