@@ -6,25 +6,29 @@
 #include "matrix.h"
 #include "draw.h"
 
-struct matrix* stlConvert(struct matrix* m, char* fileName){
-	FILE* sF = fopen(fileName,"r");
+#define BUFFER_SIZE 512
 
-	char buffer[512];
-	char* stringBuffer = malloc(512);
+struct matrix* stlConvert(struct matrix* m, char* fileName){
+	FILE* f = fopen(fileName,"r");
+
+	char* buffer;
+	char* sBuffer;
 	int vCount = 0;
 	double vertices[3];
 	int bufferPlace = 0;
 
-	while(fgets(buffer,sizeof(buffer),sF) != NULL){
+	buffer = malloc(BUFFER_SIZE);
+
+	while(fgets(buffer,BUFFER_SIZE,f) != NULL){
 		buffer[strlen(buffer)-1] = '\0';
-		strcpy(stringBuffer,buffer);
+		sBuffer = strdup(buffer);
 
-		while(stringBuffer[0] == ' ' || stringBuffer[0] == '\t'){
-			strsep(&stringBuffer," \t");
+		while(sBuffer[0] == ' ' || sBuffer[0] == '\t'){
+			strsep(&sBuffer," \t");
 		}
-		//printf("%s\n", stringBuffer);
+		//printf("%s\n", sBuffer);
 
-		if(stringBuffer[0] == 'v'){
+		if(sBuffer[0] == 'v'){
 
 			// if(vCount == 0){
 			// 	fprintf(f,"polygon\n");
@@ -34,7 +38,7 @@ struct matrix* stlConvert(struct matrix* m, char* fileName){
 			//printf("%s\n", buffer);
 
 			//vCount++;
-			sscanf(stringBuffer,"vertex %lf %lf %lf", vertices, vertices+1, vertices+2);
+			sscanf(sBuffer,"vertex %lf %lf %lf", vertices, vertices+1, vertices+2);
 
 			//printf("%lf %lf %lf\n", vertices[0], vertices[1], vertices[2]);
 
@@ -49,10 +53,8 @@ struct matrix* stlConvert(struct matrix* m, char* fileName){
 		//printf("\n");
 	}
 
-
-	free(stringBuffer);
-	fclose(sF);
-	//fclose(f);
+	free(buffer);
+	fclose(f);
 
 	return m;
 }
