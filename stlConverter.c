@@ -12,6 +12,7 @@ struct matrix* stlConvert(struct matrix* m, char* fileName){
 	FILE* f = fopen(fileName,"r");
 
 	char* buffer;
+	float* binaryVertices;
 	char* sBuffer;
 	int vCount = 0;
 	double vertices[3];
@@ -19,38 +20,70 @@ struct matrix* stlConvert(struct matrix* m, char* fileName){
 
 	buffer = malloc(BUFFER_SIZE);
 
-	while(fgets(buffer,BUFFER_SIZE,f) != NULL){
-		buffer[strlen(buffer)-1] = '\0';
-		sBuffer = strdup(buffer);
+	fgets(buffer, BUFFER_SIZE, f);
+	fseek(f, 0, SEEK_SET);
 
-		while(sBuffer[0] == ' ' || sBuffer[0] == '\t'){
-			strsep(&sBuffer," \t");
+	if(!strncmp(buffer,"solid",5)){
+
+		while(fgets(buffer,BUFFER_SIZE,f) != NULL){
+			buffer[strlen(buffer)-1] = '\0';
+			sBuffer = strdup(buffer);
+
+			while(sBuffer[0] == ' ' || sBuffer[0] == '\t'){
+				strsep(&sBuffer," \t");
+			}
+			//printf("%s\n", sBuffer);
+
+			if(sBuffer[0] == 'v'){
+
+				// if(vCount == 0){
+				// 	fprintf(f,"polygon\n");
+				// }
+
+				//strsep(&buffer," ");
+				//printf("%s\n", buffer);
+
+				//vCount++;
+				sscanf(sBuffer,"vertex %lf %lf %lf", vertices, vertices+1, vertices+2);
+
+				//printf("%lf %lf %lf\n", vertices[0], vertices[1], vertices[2]);
+
+				//fprintf(f,"%lf %lf %lf ", vertices[0], vertices[1], vertices[2]);
+				add_point(m, vertices[0], vertices[1], vertices[2]);
+
+				// if(vCount >= 3){
+				// 	fprintf(f,"\n");
+				// 	vCount = 0;
+				// }
+			}
+			//printf("\n");
 		}
-		//printf("%s\n", sBuffer);
 
-		if(sBuffer[0] == 'v'){
+	} else {
 
-			// if(vCount == 0){
-			// 	fprintf(f,"polygon\n");
-			// }
+		unsigned int tNum;
+		short int data;
+		binaryVertices = malloc(sizeof(float) * 3);
 
-			//strsep(&buffer," ");
-			//printf("%s\n", buffer);
+		fread(buffer, sizeof(char), 80, f);
+		//printf("Mesh name: %s\n", buffer);
 
-			//vCount++;
-			sscanf(sBuffer,"vertex %lf %lf %lf", vertices, vertices+1, vertices+2);
+		fread(&tNum, sizeof(unsigned int), 1, f);
+		//printf("Number of polygons: %d\n", tNum);
 
-			//printf("%lf %lf %lf\n", vertices[0], vertices[1], vertices[2]);
+		for(unsigned int n = 0; n < tNum; n++){
+			fread(binaryVertices, sizeof(float), 3, f);
 
-			//fprintf(f,"%lf %lf %lf ", vertices[0], vertices[1], vertices[2]);
-			add_point(m, vertices[0], vertices[1], vertices[2]);
+			for(int o = 0; o < 3; o++){
+				fread(binaryVertices, sizeof(float),3,f);
 
-			// if(vCount >= 3){
-			// 	fprintf(f,"\n");
-			// 	vCount = 0;
-			// }
+				add_point(m, binaryVertices[0], binaryVertices[1], binaryVertices[2]);
+			}
+
+			fread(&data, sizeof(short int), 1, f);
+
 		}
-		//printf("\n");
+
 	}
 
 	free(buffer);
