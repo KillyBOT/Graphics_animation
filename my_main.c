@@ -434,6 +434,21 @@ void my_main() {
           copy_matrix(tmp, peek(systems));
           tmp->lastcol = 0;
           break;
+        case LIGHT:
+
+          for(int x = 0; x < 3; x++){
+            light[LOCATION][x] = op[i].op.light.p->s.l->l[x];
+            light[COLOR][x] = op[i].op.light.p->s.l->c[x];
+          }
+
+          break;
+        case AMBIENT:
+
+          white.r[AMBIENT_R] = op[i].op.ambient.c[0];
+          white.g[AMBIENT_R] = op[i].op.ambient.c[1];
+          white.b[AMBIENT_R] = op[i].op.ambient.c[2];
+
+          break;
         case PUSH:
           //printf("Push");
           push(systems);

@@ -2,6 +2,7 @@ push
 constants weird1 0.7 0 0 0 0.7 0 0 0 0.7
 constants weird2 0 0.7 0 0 0 0.7 0.7 0 0
 constants weird3 0 0 0.7 0.7 0 0 0 0.7 0
+ambient 1 1 1
 scale 15 15 15
 rotate x -90
 push
