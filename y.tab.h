@@ -79,8 +79,7 @@ extern int yydebug;
     FOCAL = 289,
     DISPLAY = 290,
     WEB = 291,
-    CO = 292,
-    VARY_SINE = 293
+    CO = 292
   };
 #endif
 /* Tokens.  */
@@ -119,7 +118,6 @@ extern int yydebug;
 #define DISPLAY 290
 #define WEB 291
 #define CO 292
-#define VARY_SINE 293
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

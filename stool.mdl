@@ -1,0 +1,11 @@
+frames 240
+basename stool
+constants weird 0.7 0 0 0 0.7 0 0 0 0.7
+move 250 100 0
+scale 6 6 6
+rotate y 360 v
+mesh weird :Stool.obj
+display
+save stool.png
+
+vary v 0 239 0 1

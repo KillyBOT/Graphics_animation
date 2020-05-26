@@ -350,7 +350,7 @@ void my_main() {
             reflect = lookup_symbol(op[i].op.mesh.constants->name)->s.c;
           }
 
-          stlConvert(tmp, op[i].op.mesh.name);
+          convert(tmp, op[i].op.mesh.name);
           matrix_mult(peek(systems),tmp);
 
           draw_polygons(tmp, t, zb, view, light, ambient, reflect);

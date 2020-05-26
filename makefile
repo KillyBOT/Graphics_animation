@@ -1,4 +1,4 @@
-OBJECTS= symtab.o print_pcode.o matrix.o my_main.o display.o draw.o gmath.o stack.o hashTable.o stlConverter.o kdTree.o
+OBJECTS= symtab.o print_pcode.o matrix.o my_main.o display.o draw.o gmath.o stack.o hashTable.o convert.o kdTree.o
 CFLAGS= -g
 LDFLAGS= -lm
 CC= gcc
@@ -45,8 +45,8 @@ stack.o: stack.c stack.h matrix.h
 hashTable.o: hashTable.c hashTable.h
 	$(CC) $(CFLAGS) -c hashTable.c
 
-stlConverter.o: stlConverter.c ml6.h matrix.h draw.h
-	$(CC) $(CFLAGS) -c stlConverter.c
+convert.o: convert.c ml6.h matrix.h draw.h
+	$(CC) $(CFLAGS) -c convert.c
 
 kdTree.o: kdTree.c kdTree.h gmath.h
 	$(CC) $(CFLAGS) -c kdTree.c
